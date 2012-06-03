@@ -10,17 +10,53 @@
 
 // greatest common divisor
 function gcd(x, y) {
+
   while (y != 0) {
     var z = x % y;
     x = y;
     y = z;
   }
-  return x;
+
+  return Math.floor(x);
+}
+
+function newfraction0(num, den) {
+  return { numerator: num, denominator: den };
+}
+
+function normalise_fraction(frac) {
+
+  var num = frac.numerator;
+  var den = frac.denominator;
+
+  if(den < 0) {
+    num = -num;
+    den = -den;
+  }
+
+  return newfraction0(num, den);
+}
+
+function reduce_fraction(frac) {
+
+  var num = frac.numerator;
+  var den = frac.denominator;
+
+  if(frac.numerator != 0 && frac.denominator != 0) {
+
+    var g = gcd(frac.numerator);
+
+    num = Math.floor(num / g);
+    den = Math.floor(den / g);
+  }
+
+  return normalise_fraction(newfraction0(num,den));
 }
 
 // make fraction from decimal/floating number
 // returns [numerator,denominator]
 function makefraction(floatval) {
+
   var EPS = 0.0000001;
 
   var a, b, num, den, ratio;  // floats

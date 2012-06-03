@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<gadget>
+  <name>7Calc</name>
+  <version>1.0</version>
+  <copyright>Copyright © 2012</copyright>
+  <description>7Calc desktop gadget</description>
+  <author name="Catch22">
+    <info url="www.catch22.net"/>
+    <logo src="img/icon.png" />
+  </author>
+  <icons>
+    <icon width="64" height="64" src="img/icon.png" />
+  </icons>  
+  <hosts>
+    <host name="sidebar">
+      <base type="HTML" apiVersion="1.0.0" src="supercalc.html" />
+      <permissions>Full</permissions>
+      <platform minPlatformVersion="1.0" />
+      <autoscaleDPI>true</autoscaleDPI>
+    </host>
+  </hosts>
+</gadget>
+

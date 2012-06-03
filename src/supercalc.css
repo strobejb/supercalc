@@ -1,0 +1,122 @@
+﻿/*
+ * supercalc.css
+ *
+ * www.catch22.net
+ *
+ * Copyright (C) 2012 James Brown
+ * Licenced under the MIT licence
+ * Please refer to the file LICENCE.TXT for copying permission
+ *
+ */
+
+body {
+  margin: 0;  
+  font-family: 'Segoe UI';
+  font-weight: bold;
+}
+
+#supercalc {
+	padding: 3px;
+  padding-top: 9px;
+}
+
+.gadgetDocked
+{
+	width: 129px;
+	height: 134px;
+}
+
+.gadgetUndocked
+{
+	width: 258px;
+	height: 134px;
+}
+
+.gadgetUndocked input {
+  width: 243px;
+}
+
+input, textarea {
+  border: 1px solid #808080;
+  width: 114px;
+  margin: 3px;
+  
+  font-size: 17px;
+  font-weight: normal;
+  font-family: 'Verdana';
+   
+  height: 26px;
+  padding: 2px;;
+  border-bottom: 1px solid black;
+  border-right: 1px solid black;
+
+  vertical-align: middle;
+}
+
+/* top textbox (the expression) */
+#expression {
+
+  color:  #20d0ff;
+  background-color: #101010;    
+  margin-bottom: 0;
+} 
+
+/* bottom textbox (the result) */
+#result {
+
+  color:  #ffd070;
+  background-color: #101010;
+  text-align: center;
+}
+
+#buttons {
+/*  padding: 3px;*/
+  padding-left: 3px;
+  padding-right: 5px;
+  text-align: right;
+}
+
+.button {
+
+  width: 34px;
+  background-color: #404040;
+  color: white;
+  font-family: bold;
+  font-size: 0.9em;
+  padding: 4px 3px;
+  margin: 0;
+
+  text-align: center;
+
+  border-bottom: 2px solid #000;
+  border-right: 2px solid #000;  
+}
+
+#but1 {
+  background-color: #808080;
+  border-bottom: 2px solid #444;
+  border-right: 2px solid #444;
+}
+
+#but1.button.hover {
+  background-color: #00C0FF;
+  border-bottom: 2px solid #00C0FF;
+  border-right: 2px solid #00C0FF;
+}
+#but2.button.hover {
+  background-color: #FF2BB2;/* #0014FF;*/
+  border-bottom: 2px solid #FF2BB2;
+  border-right: 2px solid #FF2BB2;  
+}
+
+#but3.button.hover {
+  background-color: red;
+  border-right: 2px solid red;
+  border-bottom: 2px solid red;
+
+}
+
+.button.hover {
+  background-color: #2090ff;
+
+}

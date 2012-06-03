@@ -1,0 +1,26 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=Unicode" />
+    <link rel="stylesheet" type="text/css" href="src/supercalc.css" />
+    <script type="text/vbscript" src="src/msg.vbs"></script>
+    <script type="text/javascript" language="javascript" src="src/gadget.js"></script>
+    <script type="text/javascript" language="javascript" src="src/fraction.js"></script>
+    <script type="text/javascript" language="javascript" src="src/parser.js"></script>
+    <script type="text/javascript" language="javascript" src="src/supercalc.js"></script>
+  </head>
+  <body>
+    <g:background id="imgBackground">    
+    <div id="supercalc">
+        <input class="expression" id="expression" type="text" onkeydown="oof()" ></input>
+        <input class="result" id = "result" type="text"></input>
+
+        <div id="buttons">
+         <!-- g:image id="imgTest" src="but1.png"  onmouseover="butclick()"/></div --> 
+          <span class="button" id="but1" onmouseover="butover('but1')" onmouseout="butout('but1')" onclick="mode_click()" ondblclick="mode_click()" >Prg</span>
+          <span class="button" id="but2" onmouseover="butover('but2')" onmouseout="butout('but2')" onclick="but2_click()" ondblclick="but2_click()" >Dec</span>
+          <span class="button" id="but3" onmouseover="butover('but3')" onmouseout="butout('but3')" onclick="but3_click()" ondblclick="but3_click()">+/-</span>          
+        </div>
+    </div>
+    </g:background>
+  </body>    
+</html>

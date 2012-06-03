@@ -532,11 +532,7 @@ Parser.Evaluator = function() {
   var NUM    = Parser.Number;
   var evalmode   = null;
 
-  function eval_real(expr) {
-
-  }
-
-  function eval(expr) {
+  function eval0(expr) {
 
     if(expr == null) {
       return null;
@@ -556,13 +552,14 @@ Parser.Evaluator = function() {
       return val;
 
     case EXPR.UNARY:
-      var val = eval(expr.left);
+      var val = eval0(expr.left);
+
       switch(expr.op.value) {
-      case '+': val =  val;         break;
-      case '-': val = -val;         break;
-      case '!': val = !val ? 1 : 0; break;
-      case '~': val = ~val;         break;
-      default:  val = null;         break; // error
+        case '+': val =  val;         break;
+        case '-': val = -val;         break;
+        case '!': val = !val ? 1 : 0; break;
+        case '~': val = ~val;         break;
+        default:  val = null;         break; // error
       }
 
       if(evalmode == 'Prg') {
@@ -573,26 +570,26 @@ Parser.Evaluator = function() {
 
 
     case EXPR.BINARY:
-      var lval = eval(expr.left);
-      var rval = eval(expr.right);
+      var lval = eval0(expr.left);
+      var rval = eval0(expr.right);
       var val  = 0;
 
       switch(expr.op.value) {
-      case '+':         val = lval + rval;  break;
-      case '-':         val = lval - rval;  break;
-      case '*':         val = lval * rval;  break;
-      case '/':         val = lval / rval;  break;
-      case '%':         val = lval % rval;  break;
-      case '|':         val = lval | rval;  break;
-      case '&':         val = lval & rval;  break;
-      case TOK.ANDAND:  val = lval && rval; break;
-      case TOK.OROR:    val = lval || rval; break;
-      case TOK.SHR:     val = lval << rval; break;
-      case TOK.SHL:     val = lval >> rval; break;
-      case TOK.GE:      val = lval >= rval; break;
-      case TOK.LE:      val = lval <= rval; break;
-      case TOK.EQU:     val = lval == rval; break;
-      case TOK.NEQ:     val = lval != rval; break;
+        case '+':         val = lval + rval;  break;
+        case '-':         val = lval - rval;  break;
+        case '*':         val = lval * rval;  break;
+        case '/':         val = lval / rval;  break;
+        case '%':         val = lval % rval;  break;
+        case '|':         val = lval | rval;  break;
+        case '&':         val = lval & rval;  break;
+        case TOK.ANDAND:  val = lval && rval; break;
+        case TOK.OROR:    val = lval || rval; break;
+        case TOK.SHR:     val = lval << rval; break;
+        case TOK.SHL:     val = lval >> rval; break;
+        case TOK.GE:      val = lval >= rval; break;
+        case TOK.LE:      val = lval <= rval; break;
+        case TOK.EQU:     val = lval == rval; break;
+        case TOK.NEQ:     val = lval != rval; break;
       }
 
       if(evalmode == 'Prg') {
@@ -613,7 +610,7 @@ Parser.Evaluator = function() {
       return 'ERR';
     }
 
-    var val = eval(expr);
+    var val = eval0(expr);
 
     if(val == null)
       val = 'ERR';

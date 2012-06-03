@@ -201,7 +201,7 @@ function mode_click() {
       break;
   }
 
-  eval();
+  evaluate();
 }
 
 
@@ -226,7 +226,7 @@ function but3_click() {
       break;
   }
       
-  eval();
+  evaluate();
 }
 
 function but2_click() {
@@ -245,7 +245,7 @@ function but2_click() {
       break;
   }
 
-  eval();
+  evaluate();
 }
 
 function formatValue(num, base, signed, width) {
@@ -271,7 +271,7 @@ function formatValue(num, base, signed, width) {
   return valstr;
 }
 
-function eval() {
+function evalulate() {
 
   // to hex
   var base = {'Bin':2, 'Oct':8, 'Dec':10, 'Hex':16};
@@ -318,11 +318,10 @@ function eval() {
 
 }
 
-function oof() {
+function calc() {
 
   if(event.keyCode == 13) {
-
-    eval();
+    evaluate();
   }
   event.returnValue=true;
 }

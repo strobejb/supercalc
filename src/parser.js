@@ -284,7 +284,7 @@ Parser.Lexer = function() {
               }
               return create_token(TOK.OPERATOR, '|');       // |
 
-    case '×': case '÷':	
+    case '×': case '÷': 
     case '*': case '+': case '-': case '/': case '%': case '!': case '~':
     case '(': case ')': case '[': case ']':
     case '?': case ':': 
@@ -334,30 +334,30 @@ Parser.Parser = function() {
     if(t.type != TOK.OPERATOR)
       return 0;
 
-	  switch(t.value)
-  	{
-	  // unary operators at 14+
-  	// '++', '--', '*', '&', '+', '-', '~', '!'
+    switch(t.value)
+    {
+    // unary operators at 14+
+    // '++', '--', '*', '&', '+', '-', '~', '!'
 
-  	// binary operators at 4 to 13 inclusive
-	  case '*': case '/': case '%':	return 13;
-  	case '+': case '-':			      return 12;
-  	case TOK.SHL: case TOK.SHR:		return 11;
-  	case '<': case '>':				
-  	case TOK.LE : case TOK.GE:		return 10;
-  	case TOK.EQU: case TOK.NEQ:		return 9;
-  	case '&':						          return 8;
-  	case '^':						          return 7;
-  	case '|':						          return 6;
-  	case TOK.ANDAND:				      return 5;
-  	case TOK.OROR:					      return 4;
+    // binary operators at 4 to 13 inclusive
+    case '*': case '/': case '%': return 13;
+    case '+': case '-':           return 12;
+    case TOK.SHL: case TOK.SHR:   return 11;
+    case '<': case '>':       
+    case TOK.LE : case TOK.GE:    return 10;
+    case TOK.EQU: case TOK.NEQ:   return 9;
+    case '&':                     return 8;
+    case '^':                     return 7;
+    case '|':                     return 6;
+    case TOK.ANDAND:              return 5;
+    case TOK.OROR:                return 4;
 
-  	// not referenced
-  	case '?':						          return 3;	
-  	case '=':						          return 2;	
-  	case ',':						          return 1;	
-  	default:						          return 0;
-  	}
+    // not referenced
+    case '?':                     return 3; 
+    case '=':                     return 2; 
+    case ',':                     return 1; 
+    default:                      return 0;
+    }
   }
 
   function PrimaryExpression() {

@@ -10,53 +10,53 @@
 
 // greatest common divisor
 function gcd(x, y) {
-	while (y != 0) {
-		var z = x % y;
-		x = y;
-		y = z;
-	}
-	return x;
+  while (y != 0) {
+    var z = x % y;
+    x = y;
+    y = z;
+  }
+  return x;
 }
 
 // make fraction from decimal/floating number
 // returns [numerator,denominator]
 function makefraction(floatval) {
-	var EPS = 0.0000001;
+  var EPS = 0.0000001;
 
-	var a, b, num, den, ratio;  // floats
-	var c, d, e, f, mult;       // ints
+  var a, b, num, den, ratio;  // floats
+  var c, d, e, f, mult;       // ints
   
-	a = floatval;
-	b = 1.0;
-	c = 1;
-	d = 0;
-	e = 0;
-	f = 1;
+  a = floatval;
+  b = 1.0;
+  c = 1;
+  d = 0;
+  e = 0;
+  f = 1;
   
-	for(var count = 0; count < 100; count++) {
-		mult = Math.floor(a / b);
-		a -= mult * b;
-		c -= mult * d;
-		e -= mult * f;
-		num = -e;
-		den = c;
-		ratio = num / den;
-	
-		if(floatval - ratio < EPS) {
+  for(var count = 0; count < 100; count++) {
+    mult = Math.floor(a / b);
+    a -= mult * b;
+    c -= mult * d;
+    e -= mult * f;
+    num = -e;
+    den = c;
+    ratio = num / den;
+  
+    if(floatval - ratio < EPS) {
       return { numerator: -e, denominator: c };
-		}
-		
-		mult = Math.floor(b / a);
-		b -= mult * a;
-		d -= mult * c;
-		f -= mult * e;
-		num = f;
-		den = -d;
-		ratio = num / den;
-		
-		if(ratio - floatval < EPS) {
+    }
+    
+    mult = Math.floor(b / a);
+    b -= mult * a;
+    d -= mult * c;
+    f -= mult * e;
+    num = f;
+    den = -d;
+    ratio = num / den;
+    
+    if(ratio - floatval < EPS) {
       return { numerator: f, denominator: -d };
-		}
+    }
   }
 
   // shouldn't ever get here

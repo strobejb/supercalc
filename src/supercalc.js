@@ -254,7 +254,7 @@ function formatValue(num, base, signed, width) {
     signed = true;
   }
 
-  if(num < 0) {
+  if(signed == false && num < 0) {
     num = 0xFFFFFFFF + num + 1;
   }
 
@@ -277,7 +277,9 @@ function eval() {
   var base = {'Bin':2, 'Oct':8, 'Dec':10, 'Hex':16};
   var mode = MODE;
   base = base[NUMBASE];
-
+ 
+  var signed = SIGMODE == '+' ? false : true;
+ 
   var e = Parser.Evaluator();
   var inp = document.getElementById('expression');
 
@@ -288,9 +290,10 @@ function eval() {
   switch(mode) {
     
     case 'Prg':
+
       // convert to whole number
       val = Math.floor(val);
-      val = formatValue(val, base, false, parseInt(BITWIDTH));
+      val = formatValue(val, base, signed, parseInt(BITWIDTH));
       break;
 
     case 'Sci':

@@ -180,6 +180,7 @@ function mode_click() {
   // change button 2+3 text
   switch(MODE) {
     case 'Prg':
+      but.title = "Mode: Programmer";
       but = document.getElementById('but2');
       but.innerText = NUMBASE;
       but = document.getElementById('but3');
@@ -187,6 +188,7 @@ function mode_click() {
       break;
 
     case 'Sci':
+      but.title = "Mode: Scientific";
       but = document.getElementById('but2');
       but.innerText = ANGLEMODE;
       but = document.getElementById('but3');
@@ -194,6 +196,7 @@ function mode_click() {
       break;
 
     case 'Fra':
+      but.title = "Mode: Fraction";
       but = document.getElementById('but2');
       but.innerText = ANGLEMODE;
       but = document.getElementById('but3');
@@ -202,6 +205,7 @@ function mode_click() {
   }
 
   evaluate();
+  update_tips();
 }
 
 
@@ -227,6 +231,7 @@ function but3_click() {
   }
       
   evaluate();
+  update_tips();
 }
 
 function but2_click() {
@@ -246,12 +251,49 @@ function but2_click() {
   }
 
   evaluate();
+  update_tips();
+}
+
+function update_tips() {
+
+    var but1 = document.getElementById('but1');
+    var but2 = document.getElementById('but2');
+    var but2 = document.getElementById('but3');
+
+    var tip_mode = { 'Prg': 'Mode: Programmer', 'Sci': 'Mode: Scientific', 'Fra': 'Mode: Fractions' };
+    var tip_angl = { 'Deg': 'Angle: Degrees', 'Rad': 'Angle: Radians' };    
+    var tip_base = { 'Bin': 'Base: Binary', 'Dec': 'Base: Decimal', 'Oct': 'Base: Octal', 'Hex': 'Base: Hexadecimal' };
+    var tip_sign = { '+': 'Unsigned', '+/-': 'Signed' };
+    var tip_expn = { 'Exp': 'Exponent', 'Fix': 'Fixed point' };
+    var tip_frac = { 'Rat': 'Rational numbers', 'Irr': 'Irrational numbers' };
+
+    but1.title = tip_mode[MODE];
+
+    switch(MODE) {
+      case 'Prg':
+        but2.title = tip_base[NUMBASE];
+        but3.title = tip_sign[SIGMODE];
+        break;
+      case 'Sci': 
+        but2.title = tip_angl[ANGLEMODE];
+        but3.title = tip_expn[EXPMODE];
+        break;
+      
+      case 'Fra':
+        but2.title = tip_angl[ANGLEMODE];
+        but3.title = tip_frac[FRACMODE];
+        break;
+    }
+
+      alert('hello');
+
 }
 
 function formatValue(num, base, signed, width) {
 
+  // force hex (base16) and binary (base2) to be unsigned always
   if(base != 10) {
-    signed = true;
+    signed = false;
   }
 
   if(signed == false && num < 0) {
@@ -260,9 +302,10 @@ function formatValue(num, base, signed, width) {
 
   var valstr = num.toString(base).toUpperCase();
 
+  // 0-pad hex and binary numbers
   if(base != 10) {
     width = width / 4;
-   // alert(width);
+
     while (valstr.length < width) {
         valstr = "0" + valstr;
     }
@@ -271,7 +314,7 @@ function formatValue(num, base, signed, width) {
   return valstr;
 }
 
-function evalulate() {
+function evaluate() {
 
   // to hex
   var base = {'Bin':2, 'Oct':8, 'Dec':10, 'Hex':16};
@@ -279,14 +322,19 @@ function evalulate() {
   base = base[NUMBASE];
  
   var signed = SIGMODE == '+' ? false : true;
- 
+
   var e = Parser.Evaluator();
   var inp = document.getElementById('expression');
 
+  //
   // do the calculation!
   //
   var val = e.evalulate(inp.value, mode);
 
+  //
+  //  Interpret the result, depending on if we are
+  //  in programmer, scientific or fraction mode
+  //
   switch(mode) {
     
     case 'Prg':
@@ -297,6 +345,7 @@ function evalulate() {
       break;
 
     case 'Sci':
+
       // its already a floating-point number, do nothing
       if(EXPMODE == 'Fix') {
         //val = val.toFixed();
@@ -307,6 +356,7 @@ function evalulate() {
       break;
 
     case 'Fra':
+
       // convert to fraction
       val = makefraction(val);
       val = fracToString(val, FRACMODE == 'Rat' ? true : false);
@@ -321,7 +371,7 @@ function evalulate() {
 function calc() {
 
   if(event.keyCode == 13) {
-    evaluate();
+     evaluate();
   }
   event.returnValue=true;
 }

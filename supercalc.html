@@ -1,4 +1,4 @@
-﻿<html xmlns="http://www.w3.org/1999/xhtml">
+﻿<html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=Unicode" />
     <link rel="stylesheet" type="text/css" href="src/supercalc.css" />
@@ -9,18 +9,43 @@
     <script type="text/javascript" language="javascript" src="src/supercalc.js"></script>
   </head>
   <body>
-    <g:background id="imgBackground">    
-    <div id="supercalc">
-        <input class="expression" id="expression" type="text" onkeydown="calc()" ></input>
-        <input class="result" id = "result" type="text"></input>
+    <!-- g:background src="img/back1.png" id="Bg" style="position:absolute;width:129px;height:134px;z-index:-1"/ -->
+ 
+      <g:background id="imgBackground">  
+          <!-- g:background id="imgBackground2" -->  
+   <div id="supercalc">
 
-        <div id="buttons">
-         <!-- g:image id="imgTest" src="but1.png"  onmouseover="butclick()"/></div --> 
-          <span class="button" id="but1" onmouseover="butover('but1')" onmouseout="butout('but1')" onclick="mode_click()" ondblclick="mode_click()" >Prg</span>
-          <span class="button" id="but2" onmouseover="butover('but2')" onmouseout="butout('but2')" onclick="but2_click()" ondblclick="but2_click()" >Dec</span>
-          <span class="button" id="but3" onmouseover="butover('but3')" onmouseout="butout('but3')" onclick="but3_click()" ondblclick="but3_click()">+/-</span>          
-        </div>
+        <input class="expression" id="expression" title="Type an expression here" type="text" onkeydown="calc()" ></input>
+        <input class="result" id = "result" title="Result of calculation" type="text"></input>
+
+        <span class="button" id="but3" 
+          title="Sign"          
+          onmouseover="butover('but3')" 
+          onmouseout="butout('but3')" 
+          onclick="but3_click()" 
+          ondblclick="but3_click()"
+          >+/-</span>          
+
+        <span class="button" id="but2" 
+          title="Binary / Decimal / Hexadecimal"
+          onmouseover="butover('but2')" 
+          onmouseout="butout('but2')" 
+          onclick="but2_click()" 
+          ondblclick="but2_click()"
+          >Dec</span>
+        
+        <span class="button" id="but1" 
+          title="Mode: Programmer"
+          onmouseover="butover('but1')" 
+          onmouseout="butout('but1')" 
+          onclick="mode_click()" 
+          ondblclick="mode_click()"
+          >Prg</span>
+  
     </div>
+
+            <!-- /g:background -->
+    <!-- /g:background -->
     </g:background>
   </body>    
 </html>

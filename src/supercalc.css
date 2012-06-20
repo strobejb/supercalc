@@ -13,11 +13,15 @@ body {
   margin: 0;  
   font-family: 'Segoe UI';
   font-weight: bold;
+  padding:0;
 }
 
 #supercalc {
-	padding: 3px;
-  padding-top: 9px;
+  margin:0;
+  filter:Alpha(opacity=100);
+	padding: 6px;
+  padding-top: 12px;
+/* zoom: 140%;  */
 }
 
 .gadgetDocked
@@ -28,8 +32,8 @@ body {
 
 .gadgetUndocked
 {
-	width: 258px;
-	height: 134px;
+	width: 300px;/*258px;*/
+	height: 78px;/*134px;*/
 }
 
 .gadgetUndocked input {
@@ -38,8 +42,8 @@ body {
 
 input, textarea {
   border: 1px solid #808080;
-  width: 114px;
-  margin: 3px;
+/*  width: 114px;*/
+  margin-bottom: 3px;
   
   font-size: 17px;
   font-weight: normal;
@@ -51,6 +55,8 @@ input, textarea {
   border-right: 1px solid black;
 
   vertical-align: middle;
+
+  margin-right: 3px;
 }
 
 /* top textbox (the expression) */
@@ -58,7 +64,8 @@ input, textarea {
 
   color:  #20d0ff;
   background-color: #101010;    
-  margin-bottom: 0;
+  width: 100%;
+  
 } 
 
 /* bottom textbox (the result) */
@@ -69,22 +76,27 @@ input, textarea {
   text-align: center;
 }
 
-#buttons {
-/*  padding: 3px;*/
-  padding-left: 3px;
-  padding-right: 5px;
+/*#buttons {
+  margin: 0;
+  padding: 3px;
+  padding-left: 2px;
+  padding-right: 2px;
   text-align: right;
-}
+}*/
 
 .button {
 
-  width: 34px;
+  float: right;
+  display: inline;
+
+  width: 30px;
   background-color: #404040;
   color: white;
   font-family: bold;
-  font-size: 0.9em;
-  padding: 4px 3px;
+  font-size: 0.8em;
+  padding: 2px 3px;
   margin: 0;
+  border: 0;
 
   text-align: center;
 
@@ -96,6 +108,14 @@ input, textarea {
   background-color: #808080;
   border-bottom: 2px solid #444;
   border-right: 2px solid #444;
+}
+
+#but2 {
+  margin: 0 4px;
+}
+
+#but3 {
+  margin-right: 5px;
 }
 
 #but1.button.hover {
@@ -119,4 +139,21 @@ input, textarea {
 .button.hover {
   background-color: #2090ff;
 
+}
+
+#result {
+  float: left;
+  display: inline;
+  width: 100%;
+  margin-right: 3px;
+}
+
+.gadgetUndocked #result {
+
+    width: 165px;
+}
+
+#supercalc.gadgetUndocked {
+/*  padding-top: 8px;
+  padding-left: 20px;*/
 }

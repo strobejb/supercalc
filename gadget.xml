@@ -16,7 +16,7 @@
       <base type="HTML" apiVersion="1.0.0" src="supercalc.html" />
       <permissions>Full</permissions>
       <platform minPlatformVersion="1.0" />
-      <autoscaleDPI>true</autoscaleDPI>
+      <autoscaleDPI>false</autoscaleDPI>
     </host>
   </hosts>
 </gadget>

@@ -10,7 +10,7 @@
 
 var oGadgetDocument = System.Gadget.document;
 
-var zoom = 1.0;// 1.5;
+var zoom = 1.25;// 1.5;
  
 function init() {
 
@@ -20,52 +20,64 @@ function init() {
   resizeGadget();
 }
 
+function addImageBugFix(oObj, filename, x, y, width, height) {
+
+  // see:
+  // http://web.archive.org/web/20081225094409/http://www.aeroxp.org/board/index.php?showtopic=7318
+  //
+
+  // get the original image dimensions
+  var img = new Image();
+
+  img.src = filename;
+ 
+  // calculate half the difference
+  var xOffset = parseInt((img.width - width) / 2);
+  var yOffset = parseInt((img.height - height) / 2);
+
+  img = null;
+
+  // add the image
+  var gimg = oObj.addImageObject(filename, x - xOffset, y - yOffset);
+  gimg.width = width;
+  gimg.height = height;
+
+  return gimg;
+}
+
+
 function resizeGadget() {
 
   var mainBody = document.body;
 
   var oBackground = document.getElementById("imgBackground");
-  var oBackground2 = document.getElementById("Bg2");
   var oSupercalc  = document.getElementById("supercalc");
-
-  var oExpr =  document.getElementById("expression");
+  var oExpr       = document.getElementById("expression");
     
   System.Gadget.beginTransition();
-
-  oBackground.removeObjects();
 
   if(System.Gadget.docked == true) {
      
     mainBody.style.width  = 129;
-    mainBody.style.height = 134;
+    mainBody.style.height = 118;
 
-   // System.Gadget.background = "../img/docked.png";//docked.png";
-    //System.Gadget.background = "../img/docked.png";    
-    //
-    var img = oBackground.addImageObject("../img/docked.png", 0,0);
-    img.opacity = 100;
-    img.width   = img.width * zoom;//129 * zoom;
-    img.height  = img.height * zoom;//134 * zoom;
+    //var img = addImageBugFix(oBackground, "../img/docked2.png", 0, 0, 129 * zoom, 118 * zoom);
+    //img.opacity = 100;
 
-    oBackground.src = "../img/back1.png";//docked.png";
+    oBackground.src = "../img/docked2.png";//docked.png";
     oSupercalc.className = "gadgetDocked";
 
     oExpr.className = "";
-
-   // oSupercalc.src = '../img/docked.png';
   }
   else {
        
     mainBody.style.width  = 300;//258 * zoom; 
     mainBody.style.height = 78 ;//134;
 
-    var img = oBackground.addImageObject("../img/undocked4.png", 0,0);
-    img.opacity = 100;  
-    img.width   = img.width * zoom;//129 * zoom;
-    img.height  = img.height * zoom;  
+    //var img = addImageBugFix(oBackground, "../img/undocked4.png", 0, 0, 300 * zoom, 78 * zoom);
+    //img.opacity = 100;
 
-    //oBackground.src = "../img/undocked2.png";
-    //System.Gadget.background = "../img/undocked2.png";
+    oBackground.src = "../img/undocked4.png";
     oSupercalc.className = "gadgetUndocked";
   }
 
@@ -73,8 +85,7 @@ function resizeGadget() {
 
   // fix
   window.setTimeout(fixgBackground, transitionDelay*1000 + 300);
-    System.Gadget.background   = System.Gadget.background;
-
+  System.Gadget.background   = System.Gadget.background;
 }
 
 document.onreadystatechange = function() {    

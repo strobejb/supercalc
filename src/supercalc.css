@@ -18,16 +18,18 @@ body {
 
 #supercalc {
   margin:0;
-  filter:Alpha(opacity=100);
+  /*filter:Alpha(opacity=100);*/
 	padding: 6px;
   padding-top: 12px;
+  text-align: center;
+  align: center;
 /* zoom: 140%;  */
 }
 
 .gadgetDocked
 {
 	width: 129px;
-	height: 134px;
+	height: 118px;
 }
 
 .gadgetUndocked
@@ -74,26 +76,27 @@ input, textarea {
   color:  #ffd070;
   background-color: #101010;
   text-align: center;
+  width: 100%;
 }
 
-/*#buttons {
+#buttons {
+  float: right;
+  display: inline; 
   margin: 0;
-  padding: 3px;
-  padding-left: 2px;
-  padding-right: 2px;
-  text-align: right;
-}*/
+  padding: 0;
+  margin-right: 4px;
+} 
 
 .button {
 
-  float: right;
+  float: left;
   display: inline;
 
-  width: 30px;
+  width: 35px;
   background-color: #404040;
   color: white;
   font-family: bold;
-  font-size: 0.8em;
+  font-size: 15px;
   padding: 2px 3px;
   margin: 0;
   border: 0;
@@ -111,11 +114,7 @@ input, textarea {
 }
 
 #but2 {
-  margin: 0 4px;
-}
-
-#but3 {
-  margin-right: 5px;
+  margin: 0 3px;
 }
 
 #but1.button.hover {
@@ -141,16 +140,9 @@ input, textarea {
 
 }
 
-#result {
-  float: left;
-  display: inline;
-  width: 100%;
-  margin-right: 3px;
-}
-
 .gadgetUndocked #result {
-
-    width: 165px;
+  float: left;
+  width: 165px;
 }
 
 #supercalc.gadgetUndocked {

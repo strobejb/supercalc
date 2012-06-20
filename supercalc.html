@@ -9,14 +9,30 @@
     <script type="text/javascript" language="javascript" src="src/supercalc.js"></script>
   </head>
   <body>
-    <!-- g:background src="img/back1.png" id="Bg" style="position:absolute;width:129px;height:134px;z-index:-1"/ -->
- 
-      <g:background id="imgBackground">  
-          <!-- g:background id="imgBackground2" -->  
-   <div id="supercalc">
 
+    <!-- The style width/height is essential to get the background scaled correctly -->
+    <g:background id="imgBackground" style="width:100%; height:100%;" >  
+
+      <div id="supercalc">
         <input class="expression" id="expression" title="Type an expression here" type="text" onkeydown="calc()" ></input>
         <input class="result" id = "result" title="Result of calculation" type="text"></input>
+
+        <span id="buttons">
+          <span class="button" id="but1" 
+          title="Mode: Programmer"
+          onmouseover="butover('but1')" 
+          onmouseout="butout('but1')" 
+          onclick="mode_click()" 
+          ondblclick="mode_click()"
+          >Prg</span>
+
+        <span class="button" id="but2" 
+          title="Binary / Decimal / Hexadecimal"
+          onmouseover="butover('but2')" 
+          onmouseout="butout('but2')" 
+          onclick="but2_click()" 
+          ondblclick="but2_click()"
+          >Dec</span>
 
         <span class="button" id="but3" 
           title="Sign"          
@@ -26,26 +42,8 @@
           ondblclick="but3_click()"
           >+/-</span>          
 
-        <span class="button" id="but2" 
-          title="Binary / Decimal / Hexadecimal"
-          onmouseover="butover('but2')" 
-          onmouseout="butout('but2')" 
-          onclick="but2_click()" 
-          ondblclick="but2_click()"
-          >Dec</span>
-        
-        <span class="button" id="but1" 
-          title="Mode: Programmer"
-          onmouseover="butover('but1')" 
-          onmouseout="butout('but1')" 
-          onclick="mode_click()" 
-          ondblclick="mode_click()"
-          >Prg</span>
-  
-    </div>
-
-            <!-- /g:background -->
-    <!-- /g:background -->
+        </span>  
+      </div>
     </g:background>
   </body>    
 </html>

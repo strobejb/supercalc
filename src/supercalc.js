@@ -258,7 +258,7 @@ function update_tips() {
 
     var but1 = document.getElementById('but1');
     var but2 = document.getElementById('but2');
-    var but2 = document.getElementById('but3');
+    var but3 = document.getElementById('but3');
 
     var tip_mode = { 'Prg': 'Mode: Programmer', 'Sci': 'Mode: Scientific', 'Fra': 'Mode: Fractions' };
     var tip_angl = { 'Deg': 'Angle: Degrees', 'Rad': 'Angle: Radians' };    
@@ -274,6 +274,7 @@ function update_tips() {
         but2.title = tip_base[NUMBASE];
         but3.title = tip_sign[SIGMODE];
         break;
+
       case 'Sci': 
         but2.title = tip_angl[ANGLEMODE];
         but3.title = tip_expn[EXPMODE];
@@ -284,8 +285,6 @@ function update_tips() {
         but3.title = tip_frac[FRACMODE];
         break;
     }
-
-      alert('hello');
 
 }
 
@@ -310,6 +309,15 @@ function formatValue(num, base, signed, width) {
         valstr = "0" + valstr;
     }
   }
+
+  if(base == 2) {
+    valstr = valstr.split('').reverse().join('');
+    var v = valstr.match(/.{1,8}/g);
+    for(var i = 0; i < v.length; i++) {
+      v[i] = v[i].split('').reverse().join('');
+    }
+    valstr = v.reverse().join(' ');
+  }
   
   return valstr;
 }
@@ -330,6 +338,7 @@ function evaluate() {
   // do the calculation!
   //
   var val = e.evalulate(inp.value, mode);
+  inp.title = "";
 
   //
   //  Interpret the result, depending on if we are
@@ -365,6 +374,7 @@ function evaluate() {
 
   var res = document.getElementById('result');
   res.value = val;
+  res.title = val.toString();
 
 }
 

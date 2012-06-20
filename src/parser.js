@@ -142,13 +142,13 @@ Parser.Lexer = function() {
         numbase = NUM.BIN;
       }
       else {            // Octal
+        tstr = '0';
         while(isdigit(ch)) {
           tstr += ch;
           ch = nextch();
         }
         numbase = NUM.OCT;
       }
-
     }
     else {            // Decimal
 

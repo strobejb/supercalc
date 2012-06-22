@@ -82,10 +82,6 @@ function resizeGadget() {
   }
 
   System.Gadget.endTransition(System.Gadget.TransitionType.morph, 2.0);  
-
-  // fix
-  window.setTimeout(fixgBackground, transitionDelay*1000 + 300);
-  System.Gadget.background   = System.Gadget.background;
 }
 
 document.onreadystatechange = function() {    

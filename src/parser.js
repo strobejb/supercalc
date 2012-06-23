@@ -26,7 +26,7 @@ Parser.Token = {
     SHL:    '>>',
     INC:    '++',
     DEC:    '--',
-    DEREF:  '->',
+    DEREF:  '->'
 };
 
 Parser.Number = {
@@ -42,7 +42,7 @@ Parser.Expression = {
   UNARY:      'Unary',
   POSTFIX:    'Postfix',
   NUMBER:     'Number',
-  IDENTIFIER: 'Identifier',
+  IDENTIFIER: 'Identifier'
 };
 
 Parser.Mode = {
@@ -657,7 +657,7 @@ Parser.Evaluator = function() {
   // mode = 'Prg' / 'Sci' / 'Fra'
   function evalulate(str, mode) {
     evalmode = mode;
-
+    
     // parse the expression
     var expr = parser.parse(str, mode);
 

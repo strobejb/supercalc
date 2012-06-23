@@ -91,6 +91,7 @@ input, textarea {
 
   float: left;
   display: inline;
+  cursor: pointer;
 
   width: 35px;
   background-color: #404040;

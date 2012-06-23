@@ -340,36 +340,41 @@ function evaluate() {
   var val = e.evalulate(inp.value, mode);
   inp.title = "";
 
-  //
-  //  Interpret the result, depending on if we are
-  //  in programmer, scientific or fraction mode
-  //
-  switch(mode) {
+  if(val != null) {
+    //
+    //  Interpret the result, depending on if we are
+    //  in programmer, scientific or fraction mode
+    //
+    switch(mode) {
     
-    case 'Prg':
+      case 'Prg':
 
-      // convert to whole number
-      val = Math.floor(val);
-      val = formatValue(val, base, signed, parseInt(BITWIDTH));
-      break;
+        // convert to whole number
+        val = Math.floor(val);
+        val = formatValue(val, base, signed, parseInt(BITWIDTH));
+        break;
 
-    case 'Sci':
+      case 'Sci':
 
-      // its already a floating-point number, do nothing
-      if(EXPMODE == 'Fix') {
-        //val = val.toFixed();
-      }
-      else {
-        val = val.toExponential();
-      }
-      break;
+        // its already a floating-point number, do nothing
+        if(EXPMODE == 'Fix') {
+          //val = val.toFixed();
+        }
+        else {
+          val = val.toExponential();
+        }
+        break;
 
-    case 'Fra':
+      case 'Fra':
 
-      // convert to fraction
-      val = makefraction(val);
-      val = fracToString(val, FRACMODE == 'Rat' ? true : false);
-      break;
+        // convert to fraction
+        val = makefraction(val);
+        val = fracToString(val, FRACMODE == 'Rat' ? true : false);
+        break;
+    }
+  }
+  else {
+    val = 'ERR';
   }
 
   var res = document.getElementById('result');

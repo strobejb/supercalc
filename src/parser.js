@@ -23,7 +23,10 @@ Parser.Token = {
     EQU:    '==',
     NEQ:    '!=',
     SHR:    '<<',
-    SHL:    '>>'
+    SHL:    '>>',
+    INC:    '++',
+    DEC:    '--',
+    DEREF:  '->',
 };
 
 Parser.Number = {
@@ -37,8 +40,9 @@ Parser.Number = {
 Parser.Expression = {
   BINARY:     'Binary',
   UNARY:      'Unary',
+  POSTFIX:    'Postfix',
   NUMBER:     'Number',
-  IDENTIFIER: 'Identifier'
+  IDENTIFIER: 'Identifier',
 };
 
 Parser.Mode = {
@@ -280,16 +284,33 @@ Parser.Lexer = function() {
     case '|': ch = nextch();
               if(ch == '|') {                               // ||
                 ch = nextch();
-                return create_token(TOK.OPERATOR, TOK_OROR);
+                return create_token(TOK.OPERATOR, TOK.OROR);
               }
               return create_token(TOK.OPERATOR, '|');       // |
+
+    case '+': ch = nextch();
+              if(ch == '+') {                               // ++
+                ch = nextch();
+                return create_token(TOK.OPERATOR, TOK.INC);
+              }
+              return create_token(TOK.OPERATOR, '+');       // +
+
+    case '-': ch = nextch();
+              if(ch == '-') {                               // --
+                ch = nextch();
+                return create_token(TOK.OPERATOR, TOK.DEC);
+              }
+              else if(ch == '>') {                          // ->
+                ch = nextch();
+                return create_token(TOK.OPERATOR, TOK.DEREF);
+              }
+              return create_token(TOK.OPERATOR, '-');       // -
 
     case '×': case '÷': 
     case '*': case '+': case '-': case '/': case '%': case '!': case '~':
     case '(': case ')': case '[': case ']':
     case '?': case ':': 
-    //case ';': case '
-              var t = create_token(TOK.OPERATOR, ch);           // single-character operators
+              var t = create_token(TOK.OPERATOR, ch);       // single-character operators
               ch = nextch();
               return t;
    
@@ -300,7 +321,6 @@ Parser.Lexer = function() {
               ch = nextch();
               return t;
     }
-
   }
 
   // return the 'interface' to the lexical analyser!
@@ -320,12 +340,13 @@ Parser.Parser = function() {
 
   var ERR   = 0;
 
-  function ExprNode(type, tok, left, right) {
+  function ExprNode(type, tok, left, right, cond) {
     return {
       type:  type,      // one of EXPR_BINARY, EXPR_UNARY etc
       op:    tok,       // operator token
       left:  left,      // left-side ExprNode
-      right: right      // right-side ExprNode
+      right: right,     // right-side ExprNode
+      cond:  cond       // conditional (tertiary)
     }
   }
 
@@ -389,15 +410,22 @@ Parser.Parser = function() {
 
     while(true) {
       var op = t;
-      switch(op.type) {
-        //case '[': // array bounds
-        //case '.': // field access
-        //case TOK.DEREF // ->
-        //case TOK.INC: case TOK.DEC: // post increment/decrement
-        //case '(': // function calls
-        default:
-          return p;
+
+      if(op.type == TOK.OPERATOR) {
+        switch(op.value) {
+          //case '[': // array bounds
+          //case '.': // field access
+          //case '(': // function calls
+          case TOK.DEREF: // ->
+          case TOK.INC: case TOK.DEC: // post increment/decrement
+            t = lexer.gettok();
+            q = UnaryExpression();
+            p = ExprNode(EXPR.POSTFIX, op, p, q);
+            continue;
+        }
       }
+
+      return p;
     }
   }
   
@@ -414,18 +442,20 @@ Parser.Parser = function() {
         p = UnaryExpression();
         p = ExprNode(EXPR.POINTER, op, p);
       }*/
-      case '+': case '-': case '~': case '!':
+      case '+': case '-': case '~': case '!': case TOK.INC: case TOK.DEC:
         t = lexer.gettok();
         p = UnaryExpression();
         p = ExprNode(EXPR.UNARY, op, p);
-        return p;
+        break;
 
       case '(':
         t = lexer.gettok();
         p = FullExpression(')');
         p = PostfixExpression(p);
-        return p;
+        break;
       }
+
+      return p;
     }
 
     //case TOK.INC: case TOK.DEC:
@@ -468,7 +498,7 @@ Parser.Parser = function() {
       t = lexer.gettok();
 
       var left  = Expression(':');
-      var right = ConditionalExpression();;
+      var right = ConditionalExpression();
 
       p = ExprNode(EXPR.TERTIARY, op, left, right, p);
     }
@@ -483,17 +513,17 @@ Parser.Parser = function() {
         return true;
       }
       else {
-        alert('error');
+        //alert('error');
         return false;
       }
     }
+    return true;
   }
 
   function Expression(term) {
     var p = ConditionalExpression();
 
-    Test(term);
-    return p;
+    return Test(term) ? p : null;
   }
 
   function FullExpression(term) {
@@ -539,13 +569,16 @@ Parser.Evaluator = function() {
     }
 
     switch(expr.type) {
+    case null:
+      return null;
 
     case EXPR.IDENTIFIER: 
       return null;//0;
 
     case EXPR.NUMBER:
       var val = expr.op.value;
-      if(evalmode == 'Prg') {
+
+      if(val && evalmode == 'Prg') {
         val = Math.floor(val);
       }
 
@@ -553,6 +586,9 @@ Parser.Evaluator = function() {
 
     case EXPR.UNARY:
       var val = eval0(expr.left);
+
+      if(val == null)
+        return null;
 
       switch(expr.op.value) {
         case '+': val =  val;         break;
@@ -562,17 +598,23 @@ Parser.Evaluator = function() {
         default:  val = null;         break; // error
       }
 
-      if(evalmode == 'Prg') {
+      if(val && evalmode == 'Prg') {
         val = Math.floor(val);
       }
 
       return val;
 
+    case EXPR.POSTFIX:
+      // we don't support these yet!
+      return null;
 
     case EXPR.BINARY:
       var lval = eval0(expr.left);
       var rval = eval0(expr.right);
-      var val  = 0;
+      var val  = null;
+
+      if(lval == null || rval == null)
+        return null;
 
       switch(expr.op.value) {
         case '+':         val = lval + rval;  break;
@@ -592,28 +634,41 @@ Parser.Evaluator = function() {
         case TOK.NEQ:     val = lval != rval; break;
       }
 
-      if(evalmode == 'Prg') {
+      if(val && evalmode == 'Prg') {
         val = Math.floor(val);
       }
 
       return val;
 
+    case EXPR.CONDITIONAL:
+      if(eval0(expr.cond)) {
+        return eval0(expr.left);
+      }
+      else {
+        return eval0(expr.right);
+      }
+        
     default:
       return 0;
     }    
   }
 
+  // evaluate the string expression 
+  // mode = 'Prg' / 'Sci' / 'Fra'
   function evalulate(str, mode) {
     evalmode = mode;
-    expr = parser.parse(str, mode);
-    if(expr == null) {
-      return 'ERR';
-    }
 
+    // parse the expression
+    var expr = parser.parse(str, mode);
+
+    if(expr == null) 
+      return null; //'ERR';
+
+    // evaluate the expression
     var val = eval0(expr);
 
     if(val == null)
-      val = 'ERR';
+      val = null; //'ERR';
 
     return val;
   }

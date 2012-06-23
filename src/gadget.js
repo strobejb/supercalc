@@ -10,8 +10,6 @@
 
 var oGadgetDocument = System.Gadget.document;
 
-var zoom = 1.25;// 1.5;
- 
 function init() {
 
   System.Gadget.onDock   = resizeGadget;
@@ -64,15 +62,15 @@ function resizeGadget() {
     //var img = addImageBugFix(oBackground, "../img/docked2.png", 0, 0, 129 * zoom, 118 * zoom);
     //img.opacity = 100;
 
-    oBackground.src = "../img/docked2.png";//docked.png";
+    oBackground.src = "../img/docked2.png";
     oSupercalc.className = "gadgetDocked";
 
     oExpr.className = "";
   }
   else {
        
-    mainBody.style.width  = 300;//258 * zoom; 
-    mainBody.style.height = 78 ;//134;
+    mainBody.style.width  = 300;
+    mainBody.style.height = 78 ;
 
     //var img = addImageBugFix(oBackground, "../img/undocked4.png", 0, 0, 300 * zoom, 78 * zoom);
     //img.opacity = 100;
@@ -82,10 +80,6 @@ function resizeGadget() {
   }
 
   System.Gadget.endTransition(System.Gadget.TransitionType.morph, 2.0);  
-
-  // fix
-  window.setTimeout(fixgBackground, transitionDelay*1000 + 300);
-  System.Gadget.background   = System.Gadget.background;
 }
 
 document.onreadystatechange = function() {    

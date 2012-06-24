@@ -544,7 +544,14 @@ Parser.Parser = function() {
 
     t = lexer.gettok();
 
-    return parse_expression();
+    var expr = parse_expression();
+
+    // only support a single expression - so there should be nothing
+    // else to parse at this point. Any tokens remaining is an error
+    if(t.type != TOK.NONE)
+      return null;
+
+    return expr;
   }
 
   return {

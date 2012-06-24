@@ -1,0 +1,44 @@
+<html>
+  <head>
+    <title>Hello</title>
+    <style>
+      body {
+        font-family: "Segoe UI", "Sans-Serif";
+        font-size: 1.2em;
+        padding: 10px;
+        background-color: #444;
+      }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+      tr {
+        border-bottom: 4px solid #666;
+      }
+      th {
+        background-color: black;/*#444;*/
+        color: #bbb;
+      }
+      td {
+        background-color: #555;/*#f0f0f0;*/
+        border-bottom: 1px solid #777;/* white;*/
+        text-align: center;
+        color: white;
+        padding: 4px 0;
+      }
+      td.name {
+        font-weight: bold;
+        color: white;
+      }
+    </style>
+  </head>
+  <body onkeydown="window.close();">
+    <div id="varlist">Hello</div>
+
+    <script>
+      var varlist = document.getElementById("varlist");
+      varlist.innerHTML = dialogArguments;
+    </script>  
+
+  </body>
+</html>

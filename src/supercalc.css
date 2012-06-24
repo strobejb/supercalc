@@ -130,9 +130,10 @@ input, textarea {
 }
 
 #but3.button.hover {
-  background-color: red;
-  border-right: 2px solid red;
-  border-bottom: 2px solid red;
+  background-color: #40dd30;/* red;*/
+  border-right: 2px solid #40dd30;;
+  border-bottom: 2px solid #40dd30;
+  /*color: black;*/
 
 }
 

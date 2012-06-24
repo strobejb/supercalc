@@ -383,10 +383,40 @@ function evaluate() {
 
 }
 
+function showPopup() {
+
+  var a = {};
+  a['a'] = 1;
+  a['b'] = 2;
+  a['c'] = 3;
+
+  var str = '<table><tr><th>Name</th><th>Value</th></tr>';
+
+  for(var k in a) {
+    if(a.hasOwnProperty(k)) {
+      str += "<tr><td class='name'>" + k  + '</td><td>' + a[k].toString() + '</td></tr>';
+    }
+  }
+
+  str += '</table>';
+
+  var url = System.Gadget.path + '\\src\\varpop.html';
+  showModelessDialog(url, str, 'dialogWidth:300px;dialogHeight:400px;resizable:1');
+}
+
 function calc() {
 
   if(event.keyCode == 13) {
-     evaluate();
+
+    var inp = document.getElementById('expression');
+
+    if(inp.value == '?') {
+      inp.value = '';
+      showPopup();
+    }
+    else {
+      evaluate();
+    }
   }
-  event.returnValue=true;
+  event.returnValue = true;
 }

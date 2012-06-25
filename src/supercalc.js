@@ -437,13 +437,21 @@ function calc() {
       evaluate();
       saveSettings();
     }
+
+    event.returnValue = true;
   }
   // escape pressed: clear the expression
   else if(event.keyCode == 27) {
     var inp = document.getElementById('expression');
     inp.value = '';
+
+    event.returnValue = true;
   }
-  event.returnValue = true;
+  // question-mark
+  else if(event.keyCode == 191 && event.ctrlKey) {
+    showPopup();
+    event.returnValue = false;
+  }
 }
 
 

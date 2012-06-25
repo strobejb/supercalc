@@ -9,7 +9,10 @@
  */
 
 var Parser;
+var VarMap;
+
 Parser = Parser || {};
+VarMap = VarMap || {};
 
 Parser.Token = {
     OPERATOR:   'Operator',
@@ -38,11 +41,13 @@ Parser.Number = {
 };
 
 Parser.Expression = {
-  BINARY:     'Binary',
-  UNARY:      'Unary',
-  POSTFIX:    'Postfix',
-  NUMBER:     'Number',
-  IDENTIFIER: 'Identifier'
+  NUMBER:       'Number',
+  IDENTIFIER:   'Identifier',
+  UNARY:        'Unary',
+  POSTFIX:      'Postfix',
+  BINARY:       'Binary',
+  TERTIARY:     'Tertiary',
+  ASSIGNMENT:   'Assignment'
 };
 
 Parser.Mode = {
@@ -506,6 +511,31 @@ Parser.Parser = function() {
     return p;
   }
 
+  function AssignmentExpression() {
+
+    var p = ConditionalExpression();
+
+    if(t.type == TOK.OPERATOR) {
+      if(t.value == '='  
+         || (Precedence(t) >= 6 && Precedence(t) <= 8)       // & ^ |
+         || (Precedence(t) >= 11 && Precedence(t) <= 13)) {  // << >> + - * / % 
+        
+        var op = t;
+        t = lexer.gettok();
+
+        if(op.value != '=' && (t.type != TOK.OPERATOR && t.value != '=')) {
+          return null;
+        }
+        else {
+          var q = AssignmentExpression();
+          p = ExprNode(EXPR.ASSIGNMENT, op, p, q);
+        }
+      }
+    }
+
+    return p;
+  }
+
   function Test(ch) {
     if(ch) {
       if(t.value == ch) {
@@ -521,7 +551,8 @@ Parser.Parser = function() {
   }
 
   function Expression(term) {
-    var p = ConditionalExpression();
+    //var p = ConditionalExpression();
+    var p = AssignmentExpression();
 
     return Test(term) ? p : null;
   }
@@ -569,6 +600,28 @@ Parser.Evaluator = function() {
   var NUM    = Parser.Number;
   var evalmode   = null;
 
+  function calc(lval, operator, rval) {
+    var val = null;
+    switch(operator) {
+        case '+':         val = lval + rval;  break;
+        case '-':         val = lval - rval;  break;
+        case '*':         val = lval * rval;  break;
+        case '/':         val = lval / rval;  break;
+        case '%':         val = lval % rval;  break;
+        case '|':         val = lval | rval;  break;
+        case '&':         val = lval & rval;  break;
+        case TOK.ANDAND:  val = lval && rval; break;
+        case TOK.OROR:    val = lval || rval; break;
+        case TOK.SHR:     val = lval << rval; break;
+        case TOK.SHL:     val = lval >> rval; break;
+        case TOK.GE:      val = lval >= rval; break;
+        case TOK.LE:      val = lval <= rval; break;
+        case TOK.EQU:     val = lval == rval; break;
+        case TOK.NEQ:     val = lval != rval; break;
+    }
+    return val;
+  }
+
   function eval0(expr) {
 
     if(expr == null) {
@@ -576,11 +629,9 @@ Parser.Evaluator = function() {
     }
 
     switch(expr.type) {
-    case null:
-      return null;
 
     case EXPR.IDENTIFIER: 
-      return null;//0;
+      return VarMap[expr.op.value];
 
     case EXPR.NUMBER:
       var val = expr.op.value;
@@ -623,23 +674,7 @@ Parser.Evaluator = function() {
       if(lval == null || rval == null)
         return null;
 
-      switch(expr.op.value) {
-        case '+':         val = lval + rval;  break;
-        case '-':         val = lval - rval;  break;
-        case '*':         val = lval * rval;  break;
-        case '/':         val = lval / rval;  break;
-        case '%':         val = lval % rval;  break;
-        case '|':         val = lval | rval;  break;
-        case '&':         val = lval & rval;  break;
-        case TOK.ANDAND:  val = lval && rval; break;
-        case TOK.OROR:    val = lval || rval; break;
-        case TOK.SHR:     val = lval << rval; break;
-        case TOK.SHL:     val = lval >> rval; break;
-        case TOK.GE:      val = lval >= rval; break;
-        case TOK.LE:      val = lval <= rval; break;
-        case TOK.EQU:     val = lval == rval; break;
-        case TOK.NEQ:     val = lval != rval; break;
-      }
+      val = calc(lval, expr.op.value, rval);
 
       if(val && evalmode == 'Prg') {
         val = Math.floor(val);
@@ -647,16 +682,27 @@ Parser.Evaluator = function() {
 
       return val;
 
-    case EXPR.CONDITIONAL:
+    case EXPR.TERTIARY:
       if(eval0(expr.cond)) {
         return eval0(expr.left);
       }
       else {
         return eval0(expr.right);
       }
+
+    case EXPR.ASSIGNMENT:
+     
+      // can only assign into variables
+      if(expr.left.type != EXPR.IDENTIFIER)
+        return null;
+
+      // calculate the right-hand-side and store!
+      var val = eval0(expr.right);
+      VarMap[expr.left.op.value] = val;
+      return val;
         
     default:
-      return 0;
+      return null;
     }    
   }
 
@@ -672,12 +718,7 @@ Parser.Evaluator = function() {
       return null; //'ERR';
 
     // evaluate the expression
-    var val = eval0(expr);
-
-    if(val == null)
-      val = null; //'ERR';
-
-    return val;
+    return eval0(expr);
   }
 
   return {

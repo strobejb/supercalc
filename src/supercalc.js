@@ -385,16 +385,12 @@ function evaluate() {
 
 function showPopup() {
 
-  var a = {};
-  a['a'] = 1;
-  a['b'] = 2;
-  a['c'] = 3;
-
   var str = '<table><tr><th>Name</th><th>Value</th></tr>';
 
-  for(var k in a) {
-    if(a.hasOwnProperty(k)) {
-      str += "<tr><td class='name'>" + k  + '</td><td>' + a[k].toString() + '</td></tr>';
+  // VarMap defined in parser.js
+  for(var k in VarMap) {
+    if(VarMap.hasOwnProperty(k)) {
+      str += "<tr><td class='name'>" + k  + '</td><td>' + VarMap[k].toString() + '</td></tr>';
     }
   }
 
@@ -404,19 +400,50 @@ function showPopup() {
   showModelessDialog(url, str, 'dialogWidth:300px;dialogHeight:400px;resizable:1');
 }
 
+function saveSettings() {
+  var fso = new ActiveXObject("Scripting.FileSystemObject");
+  alert(fso);
+
+  var settings = System.Gadget.Path + '\\varmap.txt';
+
+  var txtFile = fso.OpenTextFile(settings, 8, true, 0);  
+  
+  for(var k in VarMap) {
+    if(VarMap.hasOwnProperty(k)) {
+      txtFile.WriteLine(k + ' = ' + VarMap[k].toString());
+    }
+  }
+
+  txtFile.Close();
+  fso = null;
+}
+
+
+
 function calc() {
 
+  // enter pressed: calculate the expression
   if(event.keyCode == 13) {
 
     var inp = document.getElementById('expression');
 
+    // show list of variables in popup window
     if(inp.value == '?') {
       inp.value = '';
       showPopup();
     }
+    // otherwise do the calculation
     else {
       evaluate();
+      saveSettings();
     }
+  }
+  // escape pressed: clear the expression
+  else if(event.keyCode == 27) {
+    var inp = document.getElementById('expression');
+    inp.value = '';
   }
   event.returnValue = true;
 }
+
+

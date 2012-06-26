@@ -1,5 +1,7 @@
+require 'nokogiri'
 require 'zip/zip'
 require 'fileutils'
+require 'pp'
 
 def zipdir(path, zippath, ignore=[])
 
@@ -19,7 +21,34 @@ def zipdir(path, zippath, ignore=[])
 
 end
 
-zipname = 'supercalc.gadget'
-ignore  = ['.git', 'publish/*', 'test/*', '*.psd']
+def main() 
 
-zipdir('..', zipname, ignore )
+  #
+  # Increment build number
+  #
+  xml = Nokogiri::XML(File.open('../gadget.xml'))
+
+  x = xml.search('gadget/version')[0]
+  
+  vers = x.content().split('.')
+  while vers.length < 4 do
+   vers << '0'
+  end
+
+  vers[-1].succ!
+  x.content = vers.join('.')
+
+  puts "Building supercalc #{x.content}"
+
+  File.open('../gadget.xml', 'w') { |f| f.write xml.to_xml }  
+
+  #
+  # Build the zip
+  #
+  zipname = 'supercalc.gadget'
+  ignore  = ['.git', 'publish/*', 'test/*', '*.psd']
+
+  zipdir('..', zipname, ignore )
+end
+
+main()

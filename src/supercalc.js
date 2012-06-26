@@ -337,7 +337,7 @@ function evaluate() {
   //
   // do the calculation!
   //
-  var val = e.evalulate(inp.value, mode);
+  var val = e.evaluate(inp.value, mode);
   inp.title = "";
 
   if(val != null) {
@@ -380,7 +380,6 @@ function evaluate() {
   var res = document.getElementById('result');
   res.value = val;
   res.title = val.toString();
-
 }
 
 function showPopup() {
@@ -400,13 +399,29 @@ function showPopup() {
   showModelessDialog(url, str, 'dialogWidth:300px;dialogHeight:400px;resizable:1');
 }
 
-function saveSettings() {
+function loadSettings() {
+
   var fso = new ActiveXObject("Scripting.FileSystemObject");
-  alert(fso);
+  var path = System.Gadget.path + '\\varmap.txt';
 
-  var settings = System.Gadget.Path + '\\varmap.txt';
+  var txtFile = fso.OpenTextFile(path, 1, true, 0);  
+  var e = Parser.Evaluator();
 
-  var txtFile = fso.OpenTextFile(settings, 8, true, 0);  
+  while(!txtFile.AtEndOfStream) {
+    var expression = txtFile.ReadLine();
+    e.evaluate(expression, '');
+  }
+
+  txtFile.Close();
+  fso = null;
+}
+
+function saveSettings() {
+
+  var fso = new ActiveXObject("Scripting.FileSystemObject");
+  var path = System.Gadget.path + '\\varmap.txt';
+
+  var txtFile = fso.OpenTextFile(path, 2, true, 0);  
   
   for(var k in VarMap) {
     if(VarMap.hasOwnProperty(k)) {
@@ -417,8 +432,6 @@ function saveSettings() {
   txtFile.Close();
   fso = null;
 }
-
-
 
 function calc() {
 

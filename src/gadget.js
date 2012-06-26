@@ -14,7 +14,6 @@ function init() {
 
   System.Gadget.onDock   = resizeGadget;
   System.Gadget.onUndock = resizeGadget;
-
   resizeGadget();
 }
 
@@ -82,9 +81,17 @@ function resizeGadget() {
   System.Gadget.endTransition(System.Gadget.TransitionType.morph, 2.0);  
 }
 
+function gadgetUnload() {
+  //alert('hello');
+  saveSettings();
+}
+
+
 document.onreadystatechange = function() {    
   if(document.readyState=="complete") {
     init();
+    loadSettings();  
+    //window.attachEvent("onunload", gadgetUnload);
   }        
 }
 

@@ -708,12 +708,11 @@ Parser.Evaluator = function() {
 
   // evaluate the string expression 
   // mode = 'Prg' / 'Sci' / 'Fra'
-  function evalulate(str, mode) {
+  function evaluate(str, mode) {
     evalmode = mode;
     
     // parse the expression
     var expr = parser.parse(str, mode);
-
     if(expr == null) 
       return null; //'ERR';
 
@@ -722,7 +721,7 @@ Parser.Evaluator = function() {
   }
 
   return {
-    evalulate: evalulate
+    evaluate: evaluate
   }
 
 }

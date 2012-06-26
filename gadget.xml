@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <gadget>
   <name>7Calc</name>
-  <version>1.0.0.2</version>
+  <version>1.0.0.4</version>
   <copyright>Copyright © 2012</copyright>
   <description>7Calc desktop gadget</description>
   <author name="Catch22">

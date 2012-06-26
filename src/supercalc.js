@@ -395,7 +395,7 @@ function showPopup() {
 
   str += '</table>';
 
-  var url = System.Gadget.path + '\\src\\varpop.html';
+  var url = System.Gadget.path + '\\src\\varmap.html';
   showModelessDialog(url, str, 'dialogWidth:300px;dialogHeight:400px;resizable:1');
 }
 

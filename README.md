@@ -37,7 +37,7 @@ Development
 -----------
 To develop 7Calc, clone the supercalc repo to the supercalc.gadget directory:
 
-C:\Users\<user>\AppData\Local\Microsoft\Windows Sidebar\Gadgets\supercalc.gadget
+    C:\Users\<user>\AppData\Local\Microsoft\Windows Sidebar\Gadgets\supercalc.gadget
 
     > cd 'c:\users\<user>\AppData\Local\Microsoft\Windows Sidebar\Gadgets'
     > git clone git@github.com:strobejb/supercalc.git supercalc.gadget

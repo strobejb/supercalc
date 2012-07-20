@@ -16,7 +16,7 @@ Please refer to LICENCE.TXT for licencing terms and conditions.
 Download
 --------
 
-7Calc is available as a prebuilt desktop gadget. See the Downloads link. 
+7Calc is available as a prebuilt desktop gadget. See the [Downloads](/strobejb/supercalc/downloads) location. 
 
 
 Building 7Calc
